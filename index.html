@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Talha Sajjad — software engineer across computer-vision systems, desktop tooling, and full-stack web.">
+<title>Talha Sajjad — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  /* Layout: control-panel dossier — status header, stat strip, stack rail, filterable project grid */
+  :root{
+    --bg:#eef0f3; --surface:#ffffff; --surface-2:#f7f8fa;
+    --ink:#141a21; --muted:#5c6672; --line:#dde2e8;
+    --accent:#b4530a; --accent-soft:rgba(180,83,10,.12);
+    --good:#15803d; --warn:#b45309; --crit:#b91c1c;
+    --font-display:"Bricolage Grotesque","Hanken Grotesk",system-ui,sans-serif;
+    --font-body:"Hanken Grotesk",system-ui,-apple-system,sans-serif;
+    --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",monospace;
+    --maxw:1040px;
+    color-scheme:light;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0d1117; --surface:#151b23; --surface-2:#11161d;
+    --ink:#e6e9ee; --muted:#8b96a5; --line:#242d39;
+    --accent:#f59e0b; --accent-soft:rgba(245,158,11,.14);
+    --good:#4ade80; --warn:#fbbf24; --crit:#f87171;
+    color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0d1117; --surface:#151b23; --surface-2:#11161d;
+    --ink:#e6e9ee; --muted:#8b96a5; --line:#242d39;
+    --accent:#f59e0b; --accent-soft:rgba(245,158,11,.14);
+    --good:#4ade80; --warn:#fbbf24; --crit:#f87171;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;font-weight:700}
+  .mono{font-family:var(--font-mono)}
+  .eyebrow{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+
+  /* top bar */
+  header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--bg)}
+  .bar .wrap{display:flex;align-items:center;justify-content:space-between;padding-block:14px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--font-mono);font-weight:600;font-size:.9rem}
+  .sigil{display:grid;place-items:center;width:30px;height:30px;border-radius:7px;background:var(--accent);color:#1a1203;font-family:var(--font-display);font-weight:800;font-size:.82rem}
+  .toggle{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-family:var(--font-mono);font-size:.74rem;letter-spacing:.05em;padding:7px 12px;border-radius:999px;cursor:pointer}
+  .toggle:hover{color:var(--ink);border-color:var(--accent)}
+
+  /* hero */
+  .hero{padding-block:64px 44px}
+  .status{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;color:var(--muted);margin-bottom:22px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 4px color-mix(in srgb,var(--good) 20%,transparent)}
+  .hero h1{font-size:clamp(2.7rem,8vw,5rem);line-height:.98;letter-spacing:-.02em}
+  .hero .lede{font-size:clamp(1.05rem,2.6vw,1.3rem);color:var(--muted);max-width:40ch;margin-top:20px}
+  .hero .lede b{color:var(--ink);font-weight:600}
+  .contact{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .cbtn{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--surface);padding:10px 15px;border-radius:10px;font-family:var(--font-mono);font-size:.82rem;text-decoration:none;cursor:pointer;color:var(--ink)}
+  .cbtn:hover{border-color:var(--accent)}
+  .cbtn svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.8}
+  .cbtn .copied{color:var(--good)}
+
+  /* stat strip */
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);margin-bottom:56px}
+  .stat{padding:22px 20px;border-right:1px solid var(--line)}
+  .stat:last-child{border-right:0}
+  .stat .n{font-family:var(--font-display);font-size:2rem;font-weight:800;line-height:1}
+  .stat .l{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+
+  /* sections */
+  section{margin-bottom:56px}
+  .shead{display:flex;align-items:baseline;gap:14px;margin-bottom:22px}
+  .shead h2{font-size:1.5rem;letter-spacing:-.01em}
+  .shead .idx{font-family:var(--font-mono);font-size:.8rem;color:var(--accent)}
+  .rule{flex:1;height:1px;background:var(--line)}
+
+  /* stack chips */
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{font-family:var(--font-mono);font-size:.78rem;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--muted)}
+  .chip b{color:var(--ink);font-weight:500}
+
+  /* filter */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+  .fbtn{font-family:var(--font-mono);font-size:.76rem;letter-spacing:.03em;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+  .fbtn[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .fbtn[aria-pressed="true"]{color:#1a1203}}
+  :root[data-theme="dark"] .fbtn[aria-pressed="true"]{color:#1a1203}
+
+  /* project grid */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:22px;min-width:0;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent);opacity:0;transition:opacity .18s}
+  .card:hover::before{opacity:1}
+  .card .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .card h3{font-size:1.18rem;letter-spacing:-.01em;min-width:0}
+  .card .cnum{font-family:var(--font-mono);font-size:.72rem;color:var(--muted)}
+  .card .desc{color:var(--muted);font-size:.93rem;flex:1}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .tag{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.04em;padding:4px 9px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+  .tag.lang{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+  .tag.cat{text-transform:uppercase}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding-block:40px 60px;margin-top:20px}
+  footer .note{font-family:var(--font-mono);font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:20px}
+  footer .note .dot{background:var(--warn);box-shadow:0 0 0 4px color-mix(in srgb,var(--warn) 20%,transparent)}
+  footer h2{font-size:1.9rem;margin-bottom:16px}
+  footer .fmail{font-family:var(--font-mono);font-size:1rem;color:var(--accent);word-break:break-all}
+
+  @media (max-width:720px){
+    .strip{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(2){border-right:0}
+    .stat:nth-child(1),.stat:nth-child(2){border-bottom:1px solid var(--line)}
+    .grid{grid-template-columns:1fr}
+    .hero{padding-block:44px 32px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <div class="brand"><span class="sigil">TS</span><span>talha-sajjad</span></div>
+    <button class="toggle" id="themeBtn" type="button">◐ Theme</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="status mono"><span class="dot"></span> AVAILABLE FOR WORK · BUILDING IN COMPUTER VISION</div>
+    <h1>Talha Sajjad</h1>
+    <p class="lede">Software engineer working across <b>computer-vision systems</b>, <b>desktop tooling</b>, and <b>full-stack web</b> — from real-time detection models to the apps that put them to work.</p>
+    <div class="contact">
+      <a class="cbtn" href="https://github.com/TalhaaSajjad" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/TalhaaSajjad
+      </a>
+      <button class="cbtn" id="mailBtn" type="button">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+        <span id="mailTxt">talhabinsajjad1234@gmail.com</span>
+      </button>
+    </div>
+  </section>
+
+  <div class="strip">
+    <div class="stat"><div class="n">8</div><div class="l">Shipped Projects</div></div>
+    <div class="stat"><div class="n">3</div><div class="l">Domains</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Detection Models</div></div>
+    <div class="stat"><div class="n">6+</div><div class="l">Languages &amp; Tools</div></div>
+  </div>
+
+  <section>
+    <div class="shead"><span class="idx mono">01</span><h2>Stack</h2><span class="rule"></span></div>
+    <div class="chips">
+      <span class="chip"><b>Python</b></span>
+      <span class="chip"><b>Computer Vision</b></span>
+      <span class="chip"><b>YOLO / YOLOX</b></span>
+      <span class="chip"><b>CVAT</b> annotation</span>
+      <span class="chip"><b>Object Detection</b></span>
+      <span class="chip"><b>Model Serving</b></span>
+      <span class="chip"><b>React 18</b></span>
+      <span class="chip"><b>TypeScript</b></span>
+      <span class="chip"><b>Tailwind</b></span>
+      <span class="chip"><b>Tkinter</b> desktop</span>
+      <span class="chip"><b>SQLite</b></span>
+      <span class="chip"><b>PyInstaller</b></span>
+      <span class="chip"><b>HTML / CSS / JS</b></span>
+    </div>
+  </section>
+
+  <section>
+    <div class="shead"><span class="idx mono">02</span><h2>Selected Work</h2><span class="rule"></span></div>
+    <div class="filters" id="filters">
+      <button class="fbtn" data-f="all" aria-pressed="true" type="button">All</button>
+      <button class="fbtn" data-f="cv" aria-pressed="false" type="button">Computer Vision &amp; AI</button>
+      <button class="fbtn" data-f="web" aria-pressed="false" type="button">Web</button>
+      <button class="fbtn" data-f="apps" aria-pressed="false" type="button">Apps &amp; Automation</button>
+    </div>
+    <div class="grid" id="grid">
+
+      <article class="card" data-cat="cv">
+        <div class="top"><h3>Nexa — Model Hosting</h3><span class="cnum mono">01</span></div>
+        <p class="desc">A serving layer for a suite of real-time detection models — PPE compliance, smoking, violence, and weapon/knife detection — each wired to run behind a single hosting interface for deployment.</p>
+        <div class="meta"><span class="tag lang">Python</span><span class="tag">ML Serving</span><span class="tag cat">Computer Vision</span></div>
+      </article>
+
+      <article class="card" data-cat="cv">
+        <div class="top"><h3>Annotation Checker</h3><span class="cnum mono">02</span></div>
+        <p class="desc">A desktop QA tool that imports a CVAT task dataset and runs every annotation quality check, then exports the full report to Word, HTML, or JSON. One validation engine powers both the GUI and the CLI, so they never disagree.</p>
+        <div class="meta"><span class="tag lang">Python</span><span class="tag">Tkinter · CVAT</span><span class="tag cat">Computer Vision</span></div>
+      </article>
+
+      <article class="card" data-cat="cv">
+        <div class="top"><h3>Auto-Motion Clipper</h3><span class="cnum mono">03</span></div>
+        <p class="desc">A CCTV motion-detection system that watches footage, spots movement, and auto-extracts the clips that matter — turning hours of surveillance into a short reel of real events. Ships with a desktop GUI.</p>
+        <div class="meta"><span class="tag lang">Python</span><span class="tag">Motion Detection</span><span class="tag cat">Computer Vision</span></div>
+      </article>
+
+      <article class="card" data-cat="web">
+        <div class="top"><h3>TDev — Gaming-Center Admin</h3><span class="cnum mono">04</span></div>
+        <p class="desc">An operator dashboard for gaming centers and cyber-cafés: manage devices, run live sessions and billing, handle customer wallets, and read analytics. Built as a real, extensible product codebase.</p>
+        <div class="meta"><span class="tag lang">TypeScript</span><span class="tag">React 18 · Vite · Tailwind</span><span class="tag cat">Web</span></div>
+      </article>
+
+      <article class="card" data-cat="apps">
+        <div class="top"><h3>Invoice Generator</h3><span class="cnum mono">05</span></div>
+        <p class="desc">An invoicing desktop app backed by a SQLite database that produces clean, print-ready PDF invoices on demand — records in, documents out.</p>
+        <div class="meta"><span class="tag lang">Python</span><span class="tag">SQLite · PDF</span><span class="tag cat">Apps</span></div>
+      </article>
+
+      <article class="card" data-cat="apps">
+        <div class="top"><h3>Auto Keyboard Clicker</h3><span class="cnum mono">06</span></div>
+        <p class="desc">A keyboard-automation utility packaged as a standalone executable with PyInstaller — no setup, just run it and go.</p>
+        <div class="meta"><span class="tag lang">Python</span><span class="tag">Automation · PyInstaller</span><span class="tag cat">Apps</span></div>
+      </article>
+
+      <article class="card" data-cat="web">
+        <div class="top"><h3>Hotel Website</h3><span class="cnum mono">07</span></div>
+        <p class="desc">A responsive marketing frontend for a hotel — clean layout and hand-built HTML/CSS front of house.</p>
+        <div class="meta"><span class="tag lang">HTML</span><span class="tag">Frontend</span><span class="tag cat">Web</span></div>
+      </article>
+
+      <article class="card" data-cat="web">
+        <div class="top"><h3>Portfolio Site</h3><span class="cnum mono">08</span></div>
+        <p class="desc">An earlier personal portfolio build — a first pass at presenting the work, in hand-written HTML, CSS, and JavaScript.</p>
+        <div class="meta"><span class="tag lang">CSS</span><span class="tag">HTML · JS</span><span class="tag cat">Web</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="note"><span class="dot"></span> Most repositories are private — access available on request.</div>
+    <h2>Let's build something.</h2>
+    <p style="color:var(--muted);max-width:50ch;margin:0 0 18px">Open to computer-vision, tooling, and full-stack work. Reach out and I'll share repo access.</p>
+    <div class="fmail" id="footMail">talhabinsajjad1234@gmail.com</div>
+  </footer>
+</main>
+
+<script>
+  // Theme toggle (per-viewer convenience)
+  (function(){
+    var root=document.documentElement, btn=document.getElementById('themeBtn');
+    try{var s=localStorage.getItem('ts-theme'); if(s) root.setAttribute('data-theme',s);}catch(e){}
+    btn.addEventListener('click',function(){
+      var cur=root.getAttribute('data-theme');
+      var isDark = cur ? cur==='dark' : matchMedia('(prefers-color-scheme:dark)').matches;
+      var next=isDark?'light':'dark';
+      root.setAttribute('data-theme',next);
+      try{localStorage.setItem('ts-theme',next);}catch(e){}
+    });
+  })();
+
+  // Project filter
+  (function(){
+    var btns=document.querySelectorAll('.fbtn'), cards=document.querySelectorAll('#grid .card');
+    document.getElementById('filters').addEventListener('click',function(e){
+      var b=e.target.closest('.fbtn'); if(!b) return;
+      btns.forEach(function(x){x.setAttribute('aria-pressed', x===b ? 'true':'false');});
+      var f=b.dataset.f;
+      cards.forEach(function(c){ c.hidden = !(f==='all' || c.dataset.cat===f); });
+    });
+  })();
+
+  // Copy email
+  (function(){
+    function sel(el){ try{var r=document.createRange(); r.selectNodeContents(el); var s=getSelection(); s.removeAllRanges(); s.addRange(r);}catch(e){} }
+    function wire(btn, span, original){
+      btn.addEventListener('click', function(){
+        var email='talhabinsajjad1234@gmail.com';
+        function done(){ span.textContent='Copied ✓'; span.classList.add('copied'); setTimeout(function(){span.textContent=original; span.classList.remove('copied');},1400); }
+        if(navigator.clipboard&&navigator.clipboard.writeText){
+          navigator.clipboard.writeText(email).then(done).catch(function(){ sel(span); });
+        } else { sel(span); }
+      });
+    }
+    wire(document.getElementById('mailBtn'), document.getElementById('mailTxt'), 'talhabinsajjad1234@gmail.com');
+    var fm=document.getElementById('footMail');
+    fm.style.cursor='pointer';
+    fm.addEventListener('click',function(){
+      var email='talhabinsajjad1234@gmail.com';
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(email).then(function(){var o=fm.textContent;fm.textContent='Copied ✓';setTimeout(function(){fm.textContent=o;},1400);}).catch(function(){sel(fm);});}
+      else sel(fm);
+    });
+  })();
+</script>
+</body>
+</html>
